@@ -10,6 +10,8 @@ public class LanternScript : MonoBehaviour
 	public bool isHeld = false;
 	public float hoverDistance;
 	public float hoverSpeed;
+	public AudioClip PickupSFX;
+	public AudioSource sfx;
 	public LayerMask layerMask;
 	public Painter painter;
 	Vector3 startPos;
@@ -78,5 +80,16 @@ public class LanternScript : MonoBehaviour
 	public void CreateDotFromRaycast(RaycastHit hit)
 	{
 		pointRenderer.CachePoint(hit.point);
+	}
+
+	public void Pickup(Transform holdTransform)
+	{
+		if (transform.parent != holdTransform)
+		{
+			transform.SetParent(holdTransform);
+			transform.localPosition = Vector3.zero;
+			isHeld = true;
+			sfx.PlayOneShot(PickupSFX, 6f);
+		}
 	}
 }

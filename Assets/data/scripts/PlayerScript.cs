@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public LanternScript lantern;
     public Transform lanternAttachPoint;
     // Start is called before the first frame update
     void Start()
@@ -23,9 +24,7 @@ public class PlayerScript : MonoBehaviour
         Debug.Log(other.name);
         if (other.CompareTag("Lantern"))
         {
-            other.transform.SetParent(lanternAttachPoint);
-            other.transform.localPosition = Vector3.zero;
-            other.GetComponent<LanternScript>().isHeld = true;
+            lantern.Pickup(lanternAttachPoint);
         }
     }
 }
