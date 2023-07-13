@@ -1,0 +1,3 @@
+[submodule "Assets/LANTICE"]
+	path = Assets/LANTICE
+	url = https://github.com/lunkums/LANTICE.git
