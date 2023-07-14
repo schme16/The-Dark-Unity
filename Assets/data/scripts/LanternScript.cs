@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class LanternScript : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class LanternScript : MonoBehaviour
 	public bool isHeld = false;
 	public float hoverDistance;
 	public float hoverSpeed;
+	public int particleBurstAmount;
+	public float particleBurstDistance;
 	public AudioClip PickupSFX;
+	public AudioClip BurstSFX;
 	public AudioSource sfx;
 	public LayerMask layerMask;
 	public Painter painter;
@@ -69,17 +73,20 @@ public class LanternScript : MonoBehaviour
 		return Physics.Raycast(transform.position, dir, out ray, rayDistance, layerMask);
 	}
 
-	public void CreateLightPoint()
+	public async void CreateLightPoint()
 	{
 		if (FireRandomPoint(out RaycastHit hit))
 		{
 			CreateDotFromRaycast(hit);
 		}
+
+		await UniTask.Yield();
 	}
 
-	public void CreateDotFromRaycast(RaycastHit hit)
+	public async void CreateDotFromRaycast(RaycastHit hit)
 	{
 		pointRenderer.CachePoint(hit.point);
+		await UniTask.Yield();
 	}
 
 	public void Pickup(Transform holdTransform)
@@ -91,5 +98,20 @@ public class LanternScript : MonoBehaviour
 			isHeld = true;
 			sfx.PlayOneShot(PickupSFX, 6f);
 		}
+	}
+
+	public async void ParticleBurst()
+	{
+		float oldRayDistance = rayDistance;
+		rayDistance = particleBurstDistance;
+		for (int i = 0; i < particleBurstAmount; i++)
+		{
+			CreateLightPoint();
+		}
+
+		sfx.PlayOneShot(BurstSFX, 1f);
+
+		rayDistance = oldRayDistance;
+		await UniTask.Yield();
 	}
 }
