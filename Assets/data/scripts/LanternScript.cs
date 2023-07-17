@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UnityEngine.VFX;
 
 public class LanternScript : MonoBehaviour
 {
 	[SerializeField] private PointRenderer pointRenderer;
 
+	public GameManager gm;
 	public GameObject rayPrefab;
 	public float rayDistance;
 	public int pointsPerBurst;
@@ -18,6 +20,7 @@ public class LanternScript : MonoBehaviour
 	public AudioSource sfx;
 	public LayerMask layerMask;
 	public Painter painter;
+	public VisualEffect lanternVFX;
 	Vector3 startPos;
 	float hoverTime;
 	bool hoverDir;

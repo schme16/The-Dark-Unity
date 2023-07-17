@@ -8,6 +8,7 @@ TagManager:
   - LightPoint
   - Lantern
   - Environment
+  - GameManager
   layers:
   - Default
   - TransparentFX
